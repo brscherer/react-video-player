@@ -12,8 +12,10 @@ export function useVideoPlayer() {
 
     if (video.paused) {
       video.play()
+      setIsPlaying(true)
     } else {
       video.pause()
+      setIsPlaying(false)
     }
   }
 
@@ -39,7 +41,6 @@ export function useVideoPlayer() {
     videoRef,
     isPlaying,
     speed,
-    setIsPlaying,
     togglePlay,
     changeSpeed,
     skip,

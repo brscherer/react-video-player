@@ -10,8 +10,7 @@ interface VideoPlayerProps {
 }
 
 export function VideoPlayer({ src, className }: VideoPlayerProps) {
-  const { videoRef, isPlaying, speed, setIsPlaying, togglePlay, changeSpeed, skip } =
-    useVideoPlayer()
+  const { videoRef, isPlaying, speed, togglePlay, changeSpeed, skip } = useVideoPlayer()
 
   const currentSpeedIndex = SPEEDS.indexOf(speed)
   const nextSpeed = SPEEDS[(currentSpeedIndex + 1) % SPEEDS.length]
@@ -23,9 +22,8 @@ export function VideoPlayer({ src, className }: VideoPlayerProps) {
       <video
         ref={videoRef}
         src={src}
+        data-testid="video-element"
         onClick={togglePlay}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
         style={{ display: 'block', maxWidth: '100%', borderRadius: 8 }}
       />
 
