@@ -5,6 +5,7 @@ export function useVideoPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [speed, setSpeed] = useState<PlaybackSpeed>(1)
+  const [loop, setLoop] = useState(false)
 
   function togglePlay() {
     const video = videoRef.current
@@ -37,12 +38,30 @@ export function useVideoPlayer() {
     )
   }
 
+  function toggleLoop() {
+    setLoop((prev) => !prev)
+  }
+
+  function handleEnded() {
+    if (!loop) {
+      setIsPlaying(false)
+      return
+    }
+    const video = videoRef.current
+    if (!video) return
+    video.currentTime = 0
+    video.play()
+  }
+
   return {
     videoRef,
     isPlaying,
     speed,
+    loop,
     togglePlay,
     changeSpeed,
     skip,
+    toggleLoop,
+    handleEnded,
   }
 }

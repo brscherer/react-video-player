@@ -87,4 +87,46 @@ describe('VideoPlayer', () => {
     const { container } = render(<VideoPlayer src={SAMPLE_SRC} className="custom" />)
     expect(container.firstChild).toHaveClass('custom')
   })
+
+  it('renders loop button', () => {
+    render(<VideoPlayer src={SAMPLE_SRC} />)
+    expect(screen.getByLabelText('Enable loop')).toBeInTheDocument()
+  })
+
+  it('toggles loop on click', async () => {
+    const user = userEvent.setup()
+    render(<VideoPlayer src={SAMPLE_SRC} />)
+
+    const loopBtn = screen.getByLabelText('Enable loop')
+    await user.click(loopBtn)
+    expect(screen.getByLabelText('Disable loop')).toBeInTheDocument()
+
+    await user.click(screen.getByLabelText('Disable loop'))
+    expect(screen.getByLabelText('Enable loop')).toBeInTheDocument()
+  })
+
+  it('restarts video from 0 on ended when loop is enabled', async () => {
+    const user = userEvent.setup()
+    render(<VideoPlayer src={SAMPLE_SRC} />)
+
+    const video = screen.getByTestId('video-element') as HTMLVideoElement
+    const playSpy = vi.spyOn(video, 'play')
+
+    await user.click(screen.getByLabelText('Enable loop'))
+    video.currentTime = 90
+
+    video.dispatchEvent(new Event('ended'))
+
+    expect(video.currentTime).toBe(0)
+    expect(playSpy).toHaveBeenCalled()
+  })
+
+  it('sets paused state on ended when loop is disabled', async () => {
+    render(<VideoPlayer src={SAMPLE_SRC} />)
+
+    const video = screen.getByTestId('video-element') as HTMLVideoElement
+    video.dispatchEvent(new Event('ended'))
+
+    expect(screen.getByLabelText('Play')).toBeInTheDocument()
+  })
 })

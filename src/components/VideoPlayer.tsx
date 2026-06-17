@@ -11,7 +11,17 @@ interface VideoPlayerProps {
 }
 
 export function VideoPlayer({ src, className }: VideoPlayerProps) {
-  const { videoRef, isPlaying, speed, togglePlay, changeSpeed, skip } = useVideoPlayer()
+  const {
+    videoRef,
+    isPlaying,
+    speed,
+    loop,
+    togglePlay,
+    changeSpeed,
+    skip,
+    toggleLoop,
+    handleEnded,
+  } = useVideoPlayer()
 
   const currentSpeedIndex = SPEEDS.indexOf(speed)
   const nextSpeed = SPEEDS[(currentSpeedIndex + 1) % SPEEDS.length]
@@ -27,6 +37,7 @@ export function VideoPlayer({ src, className }: VideoPlayerProps) {
         src={src}
         data-testid="video-element"
         onClick={togglePlay}
+        onEnded={handleEnded}
       />
 
       <div className="controls">
@@ -48,6 +59,15 @@ export function VideoPlayer({ src, className }: VideoPlayerProps) {
         </button>
 
         <span className="spacer" />
+
+        <button
+          type="button"
+          onClick={toggleLoop}
+          aria-label={loop ? 'Disable loop' : 'Enable loop'}
+          style={{ opacity: loop ? 1 : 0.5 }}
+        >
+          Loop
+        </button>
 
         <button type="button" onClick={cycleSpeed} aria-label={`Speed: ${nextSpeed}x`}>
           {speed}x
