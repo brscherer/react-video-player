@@ -7,11 +7,13 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "transcode": "scripts/transcode.sh",
     "test": "vitest run",
     "test:watch": "vitest",
     "preview": "vite preview"
   },
   "dependencies": {
+    "hls.js": "^1.6.16",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },
