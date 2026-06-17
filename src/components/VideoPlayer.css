@@ -1,0 +1,69 @@
+.video-player {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin-inline: auto;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.video-player video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.video-player .controls {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 48px 12px 10px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  opacity: 0;
+  transition: opacity 0.2s;
+  line-height: normal;
+}
+
+.video-player:hover .controls,
+.video-player.paused .controls {
+  opacity: 1;
+}
+
+.video-player .controls button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.video-player .controls button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.video-player .controls button:active {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.video-player .controls .play-btn {
+  min-width: 52px;
+  font-size: 14px;
+}
+
+.video-player .controls .spacer {
+  flex: 1;
+}
